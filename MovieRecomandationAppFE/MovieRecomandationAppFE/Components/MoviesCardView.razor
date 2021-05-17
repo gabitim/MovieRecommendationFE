@@ -1,0 +1,23 @@
+@using MovieRecomandationAppFE.Data
+@inject WeatherForecastService ForecastService
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{    
+    <CardCollection CardClass="col-4" Models="@forecasts" Schema="@schema"></CardCollection>
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+
+    private string schema;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        schema = System.IO.File.ReadAllText("WheatherSchema.json");
+    }
+}
